@@ -12,7 +12,7 @@ def search_for_artist(artist_name):
     json_result = json.loads(result.content)['artists']['items']
 
     return json_result
-    # print(json_result)
+    
 
 def get_playlist_data(playlist_id):
     url = f'https://api.spotify.com/v1/playlists/{playlist_id}/'
@@ -35,10 +35,10 @@ def get_artist_data(artist_id):
     return json_result
 
 def get_album_data(album_id):
-    url = f'https://api.spotify.com/v1/albums/{album_id}/'
+    url = f'https://api.spotify.com/v1/albums/'
     headers = settings.AUTH_HEADER
 
-    query_url = url + album_id
+    query_url = url + album_id + '?market=US'
     result = get(query_url, headers=headers)
     json_result = json.loads(result.content)
 
