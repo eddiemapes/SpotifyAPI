@@ -2,15 +2,17 @@ import logging
 import base64
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 from spotipy.oauth2 import SpotifyOAuth
 from . import query
 from .models import Profile
 import spotipy
 from spotify import settings
 import pandas as pd
+
 
 logger = logging.getLogger(__name__)
 
@@ -22,11 +24,16 @@ logging.basicConfig(
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('dashboard')
+        return redirect('core:home')
     return render(request, 'core/login.html')
 
+@require_http_methods(['GET'])
+def logout_view(request):
+    print("Logging out")
+    logout(request)
+    return redirect('core:login')
 
-def spotify_login(request):
+def spotify_login():
     # Initialize SpotifyOAuth with client credentials and requested scope
     spotify_oath = SpotifyOAuth(
         client_id=settings.SPOTIFY_CLIENT_ID, 
@@ -78,9 +85,9 @@ def spotify_callback(request):
 
         # Log the user into Django
         login(request, user)
-        return redirect("dashboard")  # Redirect to dashboard after successful login
+        return redirect("core:home")  # Redirect to dashboard after successful login
     else:
-        return redirect("home")  # Redirect to home if authorization failed
+        return redirect("core:home")  # Redirect to home if authorization failed
 
 def get_playlist_details():
     # Query for all the songs in the playlist 

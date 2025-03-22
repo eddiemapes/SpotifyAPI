@@ -43,3 +43,11 @@ def get_album_data(album_id):
     json_result = json.loads(result.content)
 
     return json_result
+
+def get_users_playlists(user_id):
+    url = f'https://api.spotify.com/v1/users/{user_id}/playlists'
+    headers = settings.AUTH_HEADER
+    query_url = url + '?limit=50'
+    result = get(query_url, headers=headers)
+    json_result = json.loads(result.content)
+    return json_result
