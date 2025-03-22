@@ -17,7 +17,7 @@ def search_for_artist(artist_name):
 def get_playlist_data(playlist_id):
     url = f'https://api.spotify.com/v1/playlists/{playlist_id}/'
     headers = settings.AUTH_HEADER
-    query = f'tracks?market=US'
+    query = f'tracks?market=US&limit=1000'
 
     query_url = url + query
     result = get(query_url, headers=headers)
