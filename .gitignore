@@ -1,3 +1,10 @@
+pyvenv.cfg
 Scripts
 Lib
+Include
 *.pyc
+db.sqlite3
+.cache
+*.env
+spotify.log
+

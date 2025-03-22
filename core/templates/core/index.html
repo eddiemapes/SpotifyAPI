@@ -1,13 +1,32 @@
-{% extends 'core/base.html' %}
-{% load static %}
-
-
+{% extends 'core/base.html' %} 
+{% load static %} 
 {% block content %}
 
 
-<p>Song Name: {{ results.Song_Name }}</p>
-<p>Artist: {{ results.Artist }}</p>
-<p>Artist ID: {{ results.Artist_ID }}</p>
+<div class="container">
+  <div class="header">
+    <h1>Spotify Playlist Analysis</h1>
+    <p>Discover insights about your favorite tracks</p>
+  </div>
 
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Total Songs</h5>
+          <p class="card-text" id="total-songs">0</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+
+    </div>
+  </div>
+</div>
+
+
+
+  
 
 {% endblock %}

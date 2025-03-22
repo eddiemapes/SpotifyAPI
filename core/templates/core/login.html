@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-md-6">
+            <div class="card bg-dark text-white">
+                <div class="card-body text-center">
+                    <h2 class="mb-4">Welcome to Spotify Analytics</h2>
+                    <p class="mb-4">Analyze your Spotify playlists and discover insights about your music</p>
+                    <a href="{% url 'spotify_login' %}" class="btn btn-success btn-lg">
+                        <i class="fab fa-spotify me-2"></i>Login with Spotify
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
