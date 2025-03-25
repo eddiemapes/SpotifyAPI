@@ -13,7 +13,9 @@ SPOTIFY_REDIRECT_URI = os.getenv('SPOTIFY_REDIRECT_URI')
 
 # print(f'SPOTIFY_CLIENT_ID: {SPOTIFY_CLIENT_ID}')
 # print(f'SPOTIFY_CLIENT_SECRET: {SPOTIFY_CLIENT_SECRET}')
+# print(f'SPOTIFY_AUTH_HEADER: {SPOTIFY_AUTH_HEADER}')
 # print(f'SPOTIFY_REDIRECT_URI: {SPOTIFY_REDIRECT_URI}')
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'debug_toolbar',
+    'template_partials'
 ]
 
 MIDDLEWARE = [

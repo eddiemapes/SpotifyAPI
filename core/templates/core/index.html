@@ -1,6 +1,13 @@
 {% extends 'core/base.html' %} 
 {% load static %} 
+{% load partials %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'core/css/index.css' %}">
+{% endblock %}
+
 {% block content %}
+
 
 
 <div class="container">
@@ -9,23 +16,164 @@
     <p>Discover insights about your favorite tracks</p>
   </div>
 
-  <div class="row">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Total Songs</h5>
-          <p class="card-text" id="total-songs">0</p>
+
+  <!-- Top song section  -->
+  <section class="mb-3" id="topSongs" 
+          hx-get="{% url 'core:get-top-songs' %}" 
+          hx-target="#top-songs-container" 
+          hx-swap="innerHTML"
+          hx-trigger="revealed">
+
+    <div class="row">
+      <div class="col-12">
+
+
+        <div class="card" id="top-songs-container">
+          {% partialdef top_songs_partial inline %}
+          <div class="card-body">
+            
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              
+              <h5 class="card-title">Your Top Songs</h5>
+
+                <div class="btn-group" role="group" aria-label="Time Range">
+                  <button type="button" 
+                          class="btn btn-outline-light {% if not song_time_range or song_time_range == 'short_term' %}active{% endif %}"
+                          hx-get="{% url 'core:get-top-songs' %}?song_time_range=short_term" 
+                          hx-target="#top-songs-container" 
+                          hx-swap="innerHTML"
+                          >4 weeks</button>
+
+                  <button type="button" 
+                          class="btn btn-outline-light {% if song_time_range == 'medium_term' %}active{% endif %}"
+                          hx-get="{% url 'core:get-top-songs' %}?song_time_range=medium_term" 
+                          hx-target="#top-songs-container" 
+                          hx-swap="innerHTML"
+                          >6 months</button>
+                  
+                  <button type="button" 
+                          class="btn btn-outline-light {% if song_time_range == 'long_term' %}active{% endif %}"
+                          hx-get="{% url 'core:get-top-songs' %}?song_time_range=long_term" 
+                          hx-target="#top-songs-container" 
+                          hx-swap="innerHTML"
+                          >1 year</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              
+                {% for song in top_songs_dicts %}
+                <div class="col-md-2 col-6 mb-3">
+                  
+                  
+                  <div class="card song-card h-100">
+                    <div class="card-body d-flex flex-column">
+                      <div class="text-truncate">
+                        <h5 class="card-title mb-2">{{ song.name|truncatechars:20 }}</h5>
+                      </div>
+                      <img src="{{ song.images.0 }}" alt="Album Cover" class="img-fluid mb-2">
+                      <div class="mt-auto text-truncate">
+                        {% for artist in song.artists %}
+                          <span class="text-white">
+                            {{ artist }}{% if not forloop.last %}, {% endif %}
+                          </span>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+                {% endfor %}
+              
+            </div>
+            {% endpartialdef %}
+          </div>
+        </div>
+        <!-- TOP SONGS COL END  -->
+      </div>
+      <!-- TOP SONGS ROW END  -->
+  </section>
+  <!-- TOP SONGS SECTION END  -->
+
+
+  <!-- Top Artist Section  -->
+  <section class="mb-3" id="topArtists"
+          hx-get="{% url 'core:get-top-artists' %}"
+          hx-target="#top-artists-container"
+          hx-swap="innerHTML"
+          hx-trigger="revealed">
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card" id="top-artists-container">
+          {% partialdef top_artists_partial inline %}
+          <div class="card-body">
+
+            <div class="d-flex align-items-center justify-content-between mb-3">
+
+              <h5 class="card-title">Your Top Artists</h5>
+
+              <div class="btn-group" role="group" aria-label="Time Range">
+                <button type="button" 
+                        class="btn btn-outline-light {% if not artist_time_range or artist_time_range == 'short_term' %}active{% endif %}"
+                        hx-get="{% url 'core:get-top-artists' %}?artist_time_range=short_term" 
+                        hx-target="#top-artists-container" 
+                        hx-swap="innerHTML"
+                        >4 weeks</button>
+
+                <button type="button" 
+                        class="btn btn-outline-light {% if artist_time_range == 'medium_term' %}active{% endif %}"
+                        hx-get="{% url 'core:get-top-artists' %}?artist_time_range=medium_term" 
+                        hx-target="#top-artists-container" 
+                        hx-swap="innerHTML"
+                        >6 months</button>
+                
+                <button type="button" 
+                        class="btn btn-outline-light {% if artist_time_range == 'long_term' %}active{% endif %}"
+                        hx-get="{% url 'core:get-top-artists' %}?artist_time_range=long_term" 
+                        hx-target="#top-artists-container" 
+                        hx-swap="innerHTML"
+                        >1 year</button>
+                </div>
+              </div>
+            </div>
+            
+
+            <div class="row">
+              
+              {% for artist in top_artists_dicts %}
+              <div class="col-md-2 col-6 mb-3">
+                <div class="card artist-card h-100">
+                  <div class="card-body d-flex flex-column justify-content-between">
+
+                    <h5 class="card-title mb-2">{{ artist.name|truncatechars:20 }}</h5>
+
+                    <img src="{{ artist.images.1 }}" alt="Artist Image" class="img-fluid mb-2">
+
+                    <div class="mt-auto text-truncate">
+                      {% for genre in artist.genres %}
+                        <span class="text-white">
+                          {{ genre }}{% if not forloop.last %}, {% endif %}
+                        </span>
+                      {% endfor %}
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            {% endpartialdef %}
+          </div>
+
+
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="col-md-6">
-
-    </div>
-  </div>
 </div>
-
-
 
   
 
