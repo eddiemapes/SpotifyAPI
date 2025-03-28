@@ -1,0 +1,10 @@
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <h3>{{ album_details.name }}</h3>
+    <img src="{{ album_details.images.1 }}" alt="Album Cover" class="img-fluid">
+    <span>{{ album_details.release_date }}</span>
+    <span>{{ album_details.total_tracks }} tracks</span>
+    <span>{% for artist in album_details.artists %}{{ artist }}{% endfor %}</span>
+    <span>{{ album_details.genres }}</span>
+    <a href="{{ album_details.link }}" target="_blank">Listen on Spotify</a>
+</div>
+

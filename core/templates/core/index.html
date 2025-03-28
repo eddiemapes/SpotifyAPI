@@ -66,20 +66,37 @@
                 {% for song in top_songs_dicts %}
                 <div class="col-md-2 col-6 mb-3">
                   
-                  
                   <div class="card song-card h-100">
                     <div class="card-body d-flex flex-column">
                       <div class="text-truncate">
                         <h5 class="card-title mb-2">{{ song.name|truncatechars:20 }}</h5>
                       </div>
                       <img src="{{ song.images.0 }}" alt="Album Cover" class="img-fluid mb-2">
+
+                      
                       <div class="mt-auto text-truncate">
+                        <i class="fa-regular fa-user" style="color: #1DB954;"></i>
                         {% for artist in song.artists %}
                           <span class="text-white">
                             {{ artist }}{% if not forloop.last %}, {% endif %}
                           </span>
                         {% endfor %}
                       </div>
+
+                      <div class="text-truncate">
+                        <i class="fa-solid fa-compact-disc" style="color: #1DB954;"></i>
+                        <span class="text-white"
+                              data-bs-toggle="modal" 
+                              data-bs-target="#detailModal" 
+                              hx-get="{% url 'core:get-album-details' song.album_id %}" 
+                              hx-target="#modal-container" 
+                              hx-trigger="click"
+                              hx-swap="innerHTML">
+                            {{ song.album }}
+                        </span>
+                      </div>
+                      
+
                     </div>
                   </div>
                   
@@ -153,9 +170,9 @@
 
                     <div class="mt-auto text-truncate">
                       {% for genre in artist.genres %}
-                        <span class="text-white">
+                        <small class="text-white">
                           {{ genre }}{% if not forloop.last %}, {% endif %}
-                        </span>
+                        </small>
                       {% endfor %}
                     </div>
 
@@ -172,9 +189,34 @@
       </div>
     </div>
   </section>
-
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailModal">
+  Launch demo modal
+</button>
 </div>
 
-  
+<!-- Basic Modal -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <!-- Modal content goes here -->
+        <button type="button" class="btn-close btn-close-white float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div id="modal-container">
+          
+        <!-- Album name -->
+        <!-- Album picture  -->
+        <!-- Release Date  -->
+        <!-- Tracks  -->
+        <!-- Artists  -->
+        <!-- Genres  -->
+        <!-- Link to spotify  -->
+        </div>
+
+        
+
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

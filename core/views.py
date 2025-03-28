@@ -14,6 +14,7 @@ import spotipy
 from spotify import settings
 import pandas as pd
 from .utility import get_spotify_client
+from collections import Counter
 
 logger = logging.getLogger(__name__)
 
@@ -154,20 +155,22 @@ def get_top_songs(request):
 
     # Get the time range from the request or use the session value
     time_range_session = request.session.get('song_time_range', None)
-    print(f"time_range_session: {time_range_session}")
 
     time_range = request.GET.get('song_time_range', time_range_session)
-    print(f"song time_range: {time_range}")
+
     # Store the time range in the session
     request.session['song_time_range'] = time_range
 
     top_songs = sp.current_user_top_tracks(limit=12, time_range=time_range)
     top_songs_dicts = []
 
+    print(f"top_songs: {top_songs['items'][0]}")
+
     for i in top_songs['items']:
         top_songs_dicts.append({
             'name': i['name'],
             'album': i['album']['name'],
+            'album_id': i['album']['id'],
             'artists': [artist['name'] for artist in i['artists']],
             'images': [image['url'] for image in i['album']['images']]
         })
@@ -185,21 +188,21 @@ def get_top_artists(request):
 
     # Get the time range from the request or use the session value
     time_range_session = request.session.get('artist_time_range', None)
-    print(f"time_range_session: {time_range_session}")
 
     time_range = request.GET.get('artist_time_range', time_range_session)
-    print(f"artist time_range: {time_range}")
+    # print(f"artist time_range: {time_range}")
     # Store the time range in the session
     request.session['artist_time_range'] = time_range
 
     top_artists = sp.current_user_top_artists(limit=6, time_range=time_range)
-    print(f"top_artists: {top_artists}")
+    print(f"top_artists: {top_artists['items'][0]}")
 
     top_artists_dicts = []
     for i in top_artists['items']:
         top_artists_dicts.append({
             'name': i['name'],
-            'images': [image['url'] for image in i['images']]
+            'images': [image['url'] for image in i['images']],
+            'genres': i['genres']
         })
     
     # logger.debug(f"top_artists_dicts: {top_artists_dicts}")
@@ -210,6 +213,31 @@ def get_top_artists(request):
     }
     
     return render(request, 'core/index.html#top_artists_partial', context)
+
+
+@require_http_methods(['GET'])
+def get_album_details(request, album_id):
+    sp = get_spotify_client()
+    album_details = sp.album(album_id)
+    print(f"album_details: {album_details}")
+    album_details_dict = {
+        'name': album_details['name'],
+        'id': album_details['id'],
+        'type': album_details['album_type'],
+        'release_date': album_details['release_date'],
+        'total_tracks': album_details['total_tracks'],
+        'tracks': album_details['tracks']['items'],
+        'images': [image['url'] for image in album_details['images']],
+        'artists': [artist['name'] for artist in album_details['artists']],
+        'genres': album_details['genres'],
+        'link': album_details['external_urls']['spotify']
+    }
+
+    context = {
+        'album_details': album_details_dict
+        }
+
+    return render(request, 'core/partials/album_info_partial.html', context)
 
 
 

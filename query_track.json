@@ -1,0 +1,75 @@
+{
+  "album": {
+    "album_type": "album",
+    "artists": [
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/6diDsPkeLxmF1r5vKnfOli"
+        },
+        "href": "https://api.spotify.com/v1/artists/6diDsPkeLxmF1r5vKnfOli",
+        "id": "6diDsPkeLxmF1r5vKnfOli",
+        "name": "Jay Ham",
+        "type": "artist",
+        "uri": "spotify:artist:6diDsPkeLxmF1r5vKnfOli"
+      }
+    ],
+    "external_urls": {
+      "spotify": "https://open.spotify.com/album/6F4P9FUm9bOuuXXll2XWXy"
+    },
+    "href": "https://api.spotify.com/v1/albums/6F4P9FUm9bOuuXXll2XWXy",
+    "id": "6F4P9FUm9bOuuXXll2XWXy",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/ab67616d0000b273bfa8df7ef000b92c6f0ee8b0",
+        "width": 640
+      },
+      {
+        "height": 300,
+        "url": "https://i.scdn.co/image/ab67616d00001e02bfa8df7ef000b92c6f0ee8b0",
+        "width": 300
+      },
+      {
+        "height": 64,
+        "url": "https://i.scdn.co/image/ab67616d00004851bfa8df7ef000b92c6f0ee8b0",
+        "width": 64
+      }
+    ],
+    "is_playable": true,
+    "name": "Sunset Potions",
+    "release_date": "2020-10-16",
+    "release_date_precision": "day",
+    "total_tracks": 12,
+    "type": "album",
+    "uri": "spotify:album:6F4P9FUm9bOuuXXll2XWXy"
+  },
+  "artists": [
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/6diDsPkeLxmF1r5vKnfOli"
+      },
+      "href": "https://api.spotify.com/v1/artists/6diDsPkeLxmF1r5vKnfOli",
+      "id": "6diDsPkeLxmF1r5vKnfOli",
+      "name": "Jay Ham",
+      "type": "artist",
+      "uri": "spotify:artist:6diDsPkeLxmF1r5vKnfOli"
+    }
+  ],
+  "disc_number": 1,
+  "duration_ms": 156855,
+  "explicit": true,
+  "external_ids": { "isrc": "QZMHP2082683" },
+  "external_urls": {
+    "spotify": "https://open.spotify.com/track/5jO5ivkqrMgp3Q4NzeMjA8"
+  },
+  "href": "https://api.spotify.com/v1/tracks/5jO5ivkqrMgp3Q4NzeMjA8",
+  "id": "5jO5ivkqrMgp3Q4NzeMjA8",
+  "is_local": false,
+  "is_playable": true,
+  "name": "Road Trip",
+  "popularity": 24,
+  "preview_url": null,
+  "track_number": 1,
+  "type": "track",
+  "uri": "spotify:track:5jO5ivkqrMgp3Q4NzeMjA8"
+}
