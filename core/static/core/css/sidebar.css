@@ -1,0 +1,125 @@
+/* Main layout */
+.wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    padding-top: 60px; /* Height of navbar */
+    position: relative;
+}
+
+/* Sidebar */
+#sidebar {
+    width: 250px;
+    position: fixed;
+    top: 60px; /* Position below navbar */
+    left: 0;
+    height: calc(100vh - 60px); /* Full height minus navbar */
+    z-index: 999;
+    transition: all 0.3s;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background-color: #282828;
+}
+
+#sidebar .nav-link {
+    color: #B3B3B3;
+    transition: all 0.3s;
+}
+
+#sidebar .nav-link:hover {
+    background-color: #383838;
+    color: #1DB954;
+}
+
+#sidebar .nav-link.active {
+    background-color: #383838;
+    color: #1DB954;
+}
+
+#sidebar .nav-link i {
+    width: 20px;
+    text-align: center;
+}
+
+#sidebar .text-decoration-none {
+    color: #ffffff;
+}
+
+#sidebar .border-top {
+    border-color: #383838 !important;
+}
+
+/* Content */
+#content {
+    flex: 1;
+    margin-left: 250px;
+    padding: 20px;
+    min-height: calc(100vh - 60px);
+    transition: all 0.3s;
+    position: relative;
+    top: 0;
+    width: calc(100% - 250px);
+}
+
+/* Navbar adjustments */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 1000;
+    background-color: #282828;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Container adjustments */
+#content .container {
+    padding-top: 0;
+    margin-top: 0;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+        top: 60px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #content {
+        width: 100%;
+        margin-left: 0;
+    }
+    .navbar {
+        width: 100%;
+    }
+}
+
+/* Profile dropdown */
+#sidebar .dropdown-menu {
+    background-color: #282828;
+    border: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+#sidebar .dropdown-item {
+    color: #B3B3B3;
+}
+
+#sidebar .dropdown-item:hover {
+    background-color: #383838;
+    color: #1DB954;
+}
+
+#sidebar .dropdown-divider {
+    border-color: #383838;
+}
+
+/* Spotify brand color */
+#sidebar .bi-bootstrap {
+    color: #1DB954;
+} 

@@ -1,0 +1,57 @@
+<!-- Sidebar -->
+<nav id="sidebar" class="bg-dark">
+    <div class="d-flex flex-column h-100">
+        <div class="p-3">
+            <a href="/" class="d-flex align-items-center text-decoration-none">
+                <i class="bi-bootstrap fs-4 me-2"></i>
+                <span class="fs-5">Spotify Analytics</span>
+            </a>
+        </div>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="" class="nav-link py-3 px-3">
+                    <i class="bi-house me-2"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link py-3 px-3">
+                    <i class="bi-speedometer2 me-2"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link py-3 px-3">
+                    <i class="bi-table me-2"></i>
+                    <span>Playlists</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link py-3 px-3">
+                    <i class="bi-heart me-2"></i>
+                    <span>Liked Songs</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link py-3 px-3">
+                    <i class="bi-people me-2"></i>
+                    <span>Artists</span>
+                </a>
+            </li>
+        </ul>
+        <div class="p-3 border-top">
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi-person-circle me-2"></i>
+                    <span>Profile</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser3">
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'core:logout' %}">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

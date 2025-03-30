@@ -1,20 +1,23 @@
 import logging
 import base64
+import datetime
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
+import pandas as pd
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
-from spotipy.oauth2 import SpotifyOAuth
-from . import query
-from .query import get_users_top_songs, get_users_playlists
+
+
+from .query import get_users_top_songs, get_users_playlists, get_playlist_data, get_artist_data
 from .models import Profile
-import spotipy
+from .utility import get_spotify_client, convert_str_to_date
 from spotify import settings
-import pandas as pd
-from .utility import get_spotify_client
-from collections import Counter
+
 
 logger = logging.getLogger(__name__)
 
@@ -32,18 +35,11 @@ def login_view(request):
 
 @require_http_methods(['GET'])
 def logout_view(request):
-    print("Logging out")
+    # print("Logging out")
     logout(request)
     return redirect('core:login')
 
 def spotify_login(request):
-    # Initialize SpotifyOAuth with client credentials and requested scope
-    # spotify_oath = SpotifyOAuth(
-    #     client_id=settings.SPOTIFY_CLIENT_ID, 
-    #     client_secret=settings.SPOTIFY_CLIENT_SECRET, 
-    #     redirect_uri=settings.SPOTIFY_REDIRECT_URI, 
-    #     scope='user-library-read user-top-read')
-
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
         client_id=settings.SPOTIFY_CLIENT_ID, 
         client_secret=settings.SPOTIFY_CLIENT_SECRET, 
@@ -57,13 +53,6 @@ def spotify_login(request):
 
 
 def spotify_callback(request):
-    # Initialize SpotifyOAuth again with same credentials
-    # sp_oauth = SpotifyOAuth(
-    #     client_id=settings.SPOTIFY_CLIENT_ID,
-    #     client_secret=settings.SPOTIFY_CLIENT_SECRET,
-    #     redirect_uri=settings.SPOTIFY_REDIRECT_URI,
-    #     scope='user-library-read'
-    # )
 
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
         client_id=settings.SPOTIFY_CLIENT_ID, 
@@ -90,7 +79,7 @@ def spotify_callback(request):
         # Create or get existing user in Django database
         user, created = User.objects.get_or_create(username=spotify_id)
         profile, created = Profile.objects.get_or_create(user=user)
-        print(f"user: {user}, created: {created}")
+        # print(f"user: {user}, created: {created}")
         check_for_profile_changes(profile, user_data)
 
 
@@ -107,7 +96,7 @@ def spotify_callback(request):
 
 def get_playlist_details():
     # Query for all the songs in the playlist 
-    api_query = query.get_playlist_data('5oUK8DDz1pRG4Tiks11H4p')['items']
+    api_query = get_playlist_data('5oUK8DDz1pRG4Tiks11H4p')['items']
 
     # Extract specific data for songs in playlist
     song_and_artist_list = extract_song_and_artist(api_query)
@@ -115,7 +104,7 @@ def get_playlist_details():
     # Query for artist data using the Artist ID 
     for entry in song_and_artist_list:
         if entry['Artist_ID']:
-            artist_data = query.get_artist_data(entry['Artist_ID'])
+            artist_data = get_artist_data(entry['Artist_ID'])
             entry['Genres'] = artist_data['genres']
     
     return song_and_artist_list
@@ -141,7 +130,7 @@ def check_for_profile_changes(profile, user_data):
         profile.profile_img_2 = profile_img_2
         profile.save()
 
-    print(f"Profile updated: {modified}")
+    # print(f"Profile updated: {modified}")
 
 @login_required
 def homepage(request):
@@ -164,7 +153,7 @@ def get_top_songs(request):
     top_songs = sp.current_user_top_tracks(limit=12, time_range=time_range)
     top_songs_dicts = []
 
-    print(f"top_songs: {top_songs['items'][0]}")
+    # print(f"top_songs: {top_songs['items'][0]}")
 
     for i in top_songs['items']:
         top_songs_dicts.append({
@@ -194,8 +183,8 @@ def get_top_artists(request):
     # Store the time range in the session
     request.session['artist_time_range'] = time_range
 
-    top_artists = sp.current_user_top_artists(limit=6, time_range=time_range)
-    print(f"top_artists: {top_artists['items'][0]}")
+    top_artists = sp.current_user_top_artists(limit=12, time_range=time_range)
+    # print(f"top_artists: {top_artists['items'][0]}")
 
     top_artists_dicts = []
     for i in top_artists['items']:
@@ -219,12 +208,12 @@ def get_top_artists(request):
 def get_album_details(request, album_id):
     sp = get_spotify_client()
     album_details = sp.album(album_id)
-    print(f"album_details: {album_details}")
+    # print(f"album_details: {album_details}")
     album_details_dict = {
         'name': album_details['name'],
         'id': album_details['id'],
         'type': album_details['album_type'],
-        'release_date': album_details['release_date'],
+        'release_date': convert_str_to_date(album_details['release_date'], '%d/%m/%Y'),
         'total_tracks': album_details['total_tracks'],
         'tracks': album_details['tracks']['items'],
         'images': [image['url'] for image in album_details['images']],
@@ -254,4 +243,7 @@ def extract_song_and_artist(item):
 
 def extract_genre_from_artist_data(item):
     return item['genres']
+
+def test(request):
+    return render(request, 'core/base/test.html')
 

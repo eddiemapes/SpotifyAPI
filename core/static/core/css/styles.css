@@ -4,7 +4,7 @@ body {
     font-family: 'Roboto', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 
 h1 {
@@ -38,9 +38,6 @@ p {
 small {
     font-size: 0.833rem;
 }
-
-
-
 
 .header {
     text-align: center;
@@ -100,16 +97,17 @@ small {
 
 .navbar {
     background-color: #1a1a1a;
-    padding: 10px 20px;
+    padding: 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 60px;
 }
 
 .navbar-container {
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 100%;
+    margin: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
